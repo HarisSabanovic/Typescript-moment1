@@ -41,10 +41,12 @@ saveBtnEl.addEventListener("click", () => {
         alert("Fyll i alla fält");
     } else {
         courseListEl.innerHTML = 
-        `<h3>${nameInput}</h3>
+        `<div class= "course-container">
+        <h3>${nameInput}</h3>
         <p>Kurskod: ${codeInput}</p>
         <p>Kurslänk: ${linkInput}</p>
         <p>Progression: ${progInput}</p>
+        </div>
         `
     }
 
@@ -52,9 +54,22 @@ saveBtnEl.addEventListener("click", () => {
 });
 
 window.onload = () => {
-    let storedCourse = localStorage.getItem("newinfo");
-
+    let storedCourse = localStorage.getItem("newInfo");
     if (storedCourse) {
-        
+
+        // Parse JSON string back to an object
+        const parsedData: courseInfo = JSON.parse(storedCourse);
+
+        courseListEl.innerHTML = 
+        `<div class= "course-container">
+        <h3>${parsedData.name}</h3>
+        <p>Kurskod: ${parsedData.code}</p>
+        <p>Kurslänk: ${parsedData.link}</p>
+        <p>Progression: ${parsedData.progression}</p>
+        </div>
+        `
+    
+    } else {
+        console.log("No data found in localStorage.");
     }
 }
