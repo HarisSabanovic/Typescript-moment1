@@ -45,7 +45,7 @@ saveBtnEl.addEventListener("click", () => {
 
         courseArray.push(newInfo);
 
-        let arrayJson = JSON.stringify("courseArray");
+        let arrayJson = JSON.stringify(courseArray);
 
         localStorage.setItem("courseArray", arrayJson);
 
@@ -69,16 +69,18 @@ window.onload = () => {
     if (storedCourse) {
 
         // Parse JSON string back to an object
-        const parsedData: courseInfo = JSON.parse(storedCourse);
+        const parsedData: courseInfo[] = JSON.parse(storedCourse);
 
-        courseListEl.innerHTML = 
+       parsedData.forEach(course => {
+        courseListEl.innerHTML += 
         `<div class= "course-container">
-        <h3>${parsedData.name}</h3>
-        <p>Kurskod: ${parsedData.code}</p>
-        <p>Kurslänk: ${parsedData.link}</p>
-        <p>Progression: ${parsedData.progression}</p>
+        <h3>${course.name}</h3>
+        <p>Kurskod: ${course.code}</p>
+        <p>Kurslänk: ${course.link}</p>
+        <p>Progression: ${course.progression}</p>
         </div>
         `
+       });
     
     } else {
         console.log("No data found in localStorage.");
