@@ -40,6 +40,17 @@ saveBtnEl.addEventListener("click", () => {
     if(codeInput === "" || nameInput === "" || linkInput === "" || progInput === "") {
         alert("Fyll i alla fält");
     } else {
+
+        let courseArray: courseInfo[] = JSON.parse(localStorage.getItem("courseArray") || "[]")
+
+        courseArray.push(newInfo);
+
+        let arrayJson = JSON.stringify("courseArray");
+
+        localStorage.setItem("courseArray", arrayJson);
+
+
+
         courseListEl.innerHTML = 
         `<div class= "course-container">
         <h3>${nameInput}</h3>
@@ -54,7 +65,7 @@ saveBtnEl.addEventListener("click", () => {
 });
 
 window.onload = () => {
-    let storedCourse = localStorage.getItem("newInfo");
+    let storedCourse = localStorage.getItem("courseArray");
     if (storedCourse) {
 
         // Parse JSON string back to an object
