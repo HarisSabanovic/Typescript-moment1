@@ -50,15 +50,15 @@ saveBtnEl.addEventListener("click", () => {
         localStorage.setItem("courseArray", arrayJson);
 
 
-
-        courseListEl.innerHTML = 
-        `<div class= "course-container">
-        <h3>${nameInput}</h3>
-        <p>Kurskod: ${codeInput}</p>
-        <p>Kurslänk: ${linkInput}</p>
-        <p>Progression: ${progInput}</p>
-        </div>
-        `
+        courseArray.forEach(course => {
+            courseListEl.innerHTML += 
+            `<div class= "course-container">
+            <h3>${course.name}</h3>
+            <p>Kurskod: ${course.code}</p>
+            <p>Kurslänk: ${course.link}</p>
+            <p>Progression: ${course.progression}</p>
+            </div>`;
+        });
     }
 
     localStorage.setItem("newInfo", JSON.stringify(newInfo));
@@ -86,3 +86,8 @@ window.onload = () => {
         console.log("No data found in localStorage.");
     }
 }
+
+deleteBtnEl.addEventListener("click", () => {
+    courseListEl.innerHTML = "";
+    localStorage.clear();
+})

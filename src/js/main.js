@@ -25,20 +25,32 @@ saveBtnEl.addEventListener("click", function () {
         alert("Fyll i alla fält");
     }
     else {
-        courseListEl.innerHTML =
-            "<div class= \"course-container\">\n        <h3>".concat(nameInput, "</h3>\n        <p>Kurskod: ").concat(codeInput, "</p>\n        <p>Kursl\u00E4nk: ").concat(linkInput, "</p>\n        <p>Progression: ").concat(progInput, "</p>\n        </div>\n        ");
+        var courseArray = JSON.parse(localStorage.getItem("courseArray") || "[]");
+        courseArray.push(newInfo);
+        var arrayJson = JSON.stringify(courseArray);
+        localStorage.setItem("courseArray", arrayJson);
+        courseArray.forEach(function (course) {
+            courseListEl.innerHTML +=
+                "<div class= \"course-container\">\n            <h3>".concat(course.name, "</h3>\n            <p>Kurskod: ").concat(course.code, "</p>\n            <p>Kursl\u00E4nk: ").concat(course.link, "</p>\n            <p>Progression: ").concat(course.progression, "</p>\n            </div>");
+        });
     }
     localStorage.setItem("newInfo", JSON.stringify(newInfo));
 });
 window.onload = function () {
-    var storedCourse = localStorage.getItem("newInfo");
+    var storedCourse = localStorage.getItem("courseArray");
     if (storedCourse) {
         // Parse JSON string back to an object
         var parsedData = JSON.parse(storedCourse);
-        courseListEl.innerHTML =
-            "<div class= \"course-container\">\n        <h3>".concat(parsedData.name, "</h3>\n        <p>Kurskod: ").concat(parsedData.code, "</p>\n        <p>Kursl\u00E4nk: ").concat(parsedData.link, "</p>\n        <p>Progression: ").concat(parsedData.progression, "</p>\n        </div>\n        ");
+        parsedData.forEach(function (course) {
+            courseListEl.innerHTML +=
+                "<div class= \"course-container\">\n        <h3>".concat(course.name, "</h3>\n        <p>Kurskod: ").concat(course.code, "</p>\n        <p>Kursl\u00E4nk: ").concat(course.link, "</p>\n        <p>Progression: ").concat(course.progression, "</p>\n        </div>\n        ");
+        });
     }
     else {
         console.log("No data found in localStorage.");
     }
 };
+deleteBtnEl.addEventListener("click", function () {
+    courseListEl.innerHTML = "";
+    localStorage.clear();
+});
