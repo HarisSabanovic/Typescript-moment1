@@ -41,14 +41,37 @@ saveBtnEl.addEventListener("click", () => {
         alert("Fyll i alla fält");
     } else {
 
-        let courseArray: courseInfo[] = JSON.parse(localStorage.getItem("courseArray") || "[]")
+        let courseArray: courseInfo[] = JSON.parse(localStorage.getItem("courseArray") || "[]");
 
-        courseArray.push(newInfo);
+        //kontrollera ifall kursen redan finns i array
+        let existingCourseIndex = -1;
+
+        for (let i = 0; i < courseArray.length; i++) {
+            if (courseArray[i].code === codeInput) {
+                existingCourseIndex = i;
+                break;
+            }
+        }
+
+        if(existingCourseIndex !== -1) {
+            let writeOver = confirm("Kursen finns redan, vill du ersätta den?");
+
+            if(writeOver) {
+                courseArray[existingCourseIndex] = newInfo;
+            } else {
+                return;
+            }
+    
+        } else {
+
+            courseArray.push(newInfo);
+        }
 
         let arrayJson = JSON.stringify(courseArray);
 
         localStorage.setItem("courseArray", arrayJson);
 
+        courseListEl.innerHTML = "";
 
         courseArray.forEach(course => {
             courseListEl.innerHTML += 

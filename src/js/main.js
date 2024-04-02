@@ -26,9 +26,29 @@ saveBtnEl.addEventListener("click", function () {
     }
     else {
         var courseArray = JSON.parse(localStorage.getItem("courseArray") || "[]");
-        courseArray.push(newInfo);
+        //kontrollera ifall kursen redan finns i array
+        var existingCourseIndex = -1;
+        for (var i = 0; i < courseArray.length; i++) {
+            if (courseArray[i].code === codeInput) {
+                existingCourseIndex = i;
+                break;
+            }
+        }
+        if (existingCourseIndex !== -1) {
+            var writeOver = confirm("Kursen finns redan, vill du ersätta den?");
+            if (writeOver) {
+                courseArray[existingCourseIndex] = newInfo;
+            }
+            else {
+                return;
+            }
+        }
+        else {
+            courseArray.push(newInfo);
+        }
         var arrayJson = JSON.stringify(courseArray);
         localStorage.setItem("courseArray", arrayJson);
+        courseListEl.innerHTML = "";
         courseArray.forEach(function (course) {
             courseListEl.innerHTML +=
                 "<div class= \"course-container\">\n            <h3>".concat(course.name, "</h3>\n            <p>Kurskod: ").concat(course.code, "</p>\n            <p>Kursl\u00E4nk: ").concat(course.link, "</p>\n            <p>Progression: ").concat(course.progression, "</p>\n            </div>");
