@@ -14,5 +14,11 @@ interface courseInfo {
     progression: string;
     link: string;
 }
+```
 
 När användaren klickar på "Spara"-knappen, hämtar applikationen värden från formuläret och skapar ett objekt baserat på courseInfo-interfacet. Därefter kontrollerar applikationen om kursen redan finns i localStorage. Om kursen redan finns, får användaren valet att ersätta den. Om kursen inte finns, läggs den till i listan och sparas i localStorage.
+
+Vid sidladdning läser applikationen in sparade kurser från localStorage och visar dem i en lista. Detta görs genom att parsade JSON-strängar omvandlas till objekt som sedan läggs till i DOM.
+
+Rensa Kurser
+När användaren klickar på "Rensa kurser"-knappen, rensas både listan på sidan och datan i localStorage, vilket tar bort alla sparade kurser.
